@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<villain>
+  <name>Agathodaemon</name>
+  <characteristics>
+    <dex>
+      <total>18</total>
+    </dex>
+    <con>
+      <total>10</total>
+    </con>
+    <rec>
+      <total>5</total>
+    </rec>
+    <spd>
+      <total>4</total>
+    </spd>
+    <body>
+      <total>6</total>
+      <current>6</current>
+    </body>
+    <stun>
+      <total>30</total>
+      <current>30</current>
+    </stun>
+    <acted>false</acted>
+    <aborted>false</aborted>
+    <stunned>0</stunned>
+    <flashed>0</flashed>
+  </characteristics>
+</villain>
+

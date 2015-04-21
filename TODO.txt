@@ -1,0 +1,4 @@
+* Allow setting that a char is CON stunned or unconscious
+* Create player display
+* Track NPC BODY/STUN
+* When adding multiple char's with same name, add number to display name

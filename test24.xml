@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters>
+  <hero party-member="false">
+    <name>test1</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test2</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test3</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test4</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test5</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test6</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test7</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test8</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test9</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test10</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test11</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test12</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test13</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test14</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test15</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test16</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test17</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test18</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test19</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test20</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test21</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test22</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test23</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+  <hero party-member="false">
+    <name>test24</name>
+    <characteristics>
+      <dex>
+        <total>5</total>
+      </dex>
+      <spd>
+        <total>5</total>
+      </spd>
+    </characteristics>
+  </hero>
+</characters>
+

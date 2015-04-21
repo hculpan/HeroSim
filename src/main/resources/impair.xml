@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<impairing>
+	<roll dice="1d6" max="6">
+		<result id="1">1 turn</result>
+		<result id="2">1 minute</result>
+		<result id="3">5 minutes</result>
+		<result id="4">1 hour</result>
+		<result id="5">5 hours</result>
+		<result id="6">1 day</result>
+	</roll>
+	
+	<location-descr id="head">
+		The character may become unconscious (GM's discretion), and upon
+		waking could suffer from temporary amnesia, dizziness, double vision,
+		or impaired speech.  The GM could apply a -1 to -3 penalty on the
+		character's CV, Perception, and Skill Rolls to reflect this.  This 
+		may also leave an NPC dead or dying, at the GM's discretion.
+	</location-descr>
+	<location-descr id="hands, arms, shoulders, forearms, upperarms">
+		The character loses the ability to perform delicate actions with that
+		hand.  He suffers a -3 OCV for any attacks using that arm, and -3
+		to any Skill Rolls involving that hand or arm.  Striking someone
+		with that arm causes the character to take 2d6 STUN, no defense.
+	</location-descr>
+	<location-descr id="chest, stomach, vitals">
+		The character no longer receives his Post-Segment 12 Recoveries.
+		An impairing shot to the Vitals may leave an NPC dead or dying, at
+		the GM's discretion.
+	</location-descr>
+	<location-descr id="thighs, legs, feet, knees">
+		Halve the character's Running.  The character is at -2 DCV because
+		of his reduced mobility.
+	</location-descr>
+</impairing>

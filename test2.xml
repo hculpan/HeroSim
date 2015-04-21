@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters>
+  <villain>
+    <name>test</name>
+    <characteristics>
+      <dex>
+        <total>6</total>
+      </dex>
+      <con>
+        <total>10</total>
+      </con>
+      <rec>
+        <total>4</total>
+      </rec>
+      <spd>
+        <total>6</total>
+      </spd>
+      <body>
+        <total>10</total>
+      </body>
+      <stun>
+        <total>20</total>
+      </stun>
+    </characteristics>
+  </villain>
+  <villain>
+    <name>test2</name>
+    <characteristics>
+      <dex>
+        <total>6</total>
+      </dex>
+      <con>
+        <total>10</total>
+      </con>
+      <rec>
+        <total>4</total>
+      </rec>
+      <spd>
+        <total>6</total>
+      </spd>
+      <body>
+        <total>12</total>
+      </body>
+      <stun>
+        <total>30</total>
+      </stun>
+    </characteristics>
+  </villain>
+</characters>
+

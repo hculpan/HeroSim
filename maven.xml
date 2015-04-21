@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    default="default"
+    xmlns:ant="jelly:ant"
+    xmlns:j="jelly:core"
+    xmlns:u="jelly:util"
+    xmlns:maven="jelly:maven">
+
+    <goal name="default">
+        <attainGoal name="jar:jar"/>
+    </goal>
+    
+    <goal name="app">
+    	<ant:taskdef name="jarbundler"
+             classpath="${pom.getDependencyPath('jarbundler')}"
+             classname="com.loomcom.ant.tasks.jarbundler.JarBundler"/>
+    <ant:delete dir="${maven.build.dir}/herosim.app"/>
+    <ant:echo message="${pom.getDependencyClasspath()}"/>
+    	<jarbundler dir="${maven.build.dir}"
+                name="herosim"
+                mainclass="org.culpan.herosim.HeroSimMain"
+                icon="herosim.icns"
+                jars="${pom.getDependencyClasspath()}"
+                version="1.0"
+                infostring="Hero System Simulator 1.0, (c) 2004"
+                aboutmenuname="Hero System Simulator"
+                jvmversion="1.4+"
+                screenmenu="true"/>
+    </goal>
+    
+    <goal name="installPlugins">
+        <attainGoal name="plugin:download"></attainGoal>
+    </goal>
+</project>
+

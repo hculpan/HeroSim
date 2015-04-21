@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters>
+  <hero>
+    <name>Torpedo</name>
+    <characteristics>
+      <dex>
+        <total>20</total>
+      </dex>
+      <spd>
+        <total>6</total>
+        <notes>Phases: 2, 4, 6, 8, 10, 12</notes>
+      </spd>
+    </characteristics>
+  </hero>
+</characters>
+

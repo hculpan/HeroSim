@@ -1,0 +1,9 @@
+@echo off
+
+set CP=%CLASSPATH%
+#foreach ( $dependency in $dependencies )
+set CP=%CP%;./target/scriptbuilder/lib/$dependency.Artifact
+#end
+set CP=%CP%;./target/$applicationJar
+
+java -cp %CP% $mainClass %*

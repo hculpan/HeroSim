@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<villain>
+  <name>Gargun</name>
+  <characteristics>
+    <dex>
+      <total>12</total>
+    </dex>
+    <con>
+      <total>14</total>
+    </con>
+    <rec>
+      <total>4</total>
+    </rec>
+    <spd>
+      <total>3</total>
+    </spd>
+    <body>
+      <total>11</total>
+      <current>11</current>
+    </body>
+    <stun>
+      <total>27</total>
+      <current>27</current>
+    </stun>
+    <acted>false</acted>
+    <aborted>false</aborted>
+    <stunned>0</stunned>
+    <flashed>0</flashed>
+  </characteristics>
+</villain>
+
