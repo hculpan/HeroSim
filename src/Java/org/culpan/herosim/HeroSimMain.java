@@ -22,8 +22,8 @@ import org.culpan.herosim.gui.PhaseTrackerPanel;
 import org.culpan.herosim.plugin.LoggingPlugin;
 import org.culpan.herosim.plugin.PlayerViewerPlugin;
 import org.culpan.herosim.plugin.PluginManager;
-import org.culpan.herosim.plugin.bonjour.BonjourMonitorView;
-import org.culpan.herosim.plugin.bonjour.BonjourMonitorPlugin;
+// import org.culpan.herosim.plugin.bonjour.BonjourMonitorView;
+// import org.culpan.herosim.plugin.bonjour.BonjourMonitorPlugin;
 import org.culpan.herosim.plugin.network.HeroSimNetworkView;
 import org.culpan.herosim.plugin.network.NetworkMonitorPlugin;
 
@@ -102,7 +102,7 @@ public class HeroSimMain {
 		}
 
 		if (Utils.isMacOs()) {
-			PluginManager.addPlugin(new BonjourMonitorPlugin());
+//			PluginManager.addPlugin(new BonjourMonitorPlugin());
 		} else {
 			PluginManager.addPlugin(new NetworkMonitorPlugin());
 		}
