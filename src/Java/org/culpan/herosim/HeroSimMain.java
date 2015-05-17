@@ -117,8 +117,8 @@ public class HeroSimMain {
 					System.setProperty("com.apple.mrj.application.apple.menu.about.name", "HeroSim Network Client");
 					System.setProperty("apple.laf.useScreenMenuBar", "true");
 
-					BonjourMonitorView bm = new BonjourMonitorView();
-					bm.initialize();
+//					BonjourMonitorView bm = new BonjourMonitorView();
+//					bm.initialize();
 				} else {
 					HeroSimNetworkView v = new HeroSimNetworkView();
 					v.setNetClientHostname(netClientHostname);
