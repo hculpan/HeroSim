@@ -137,12 +137,13 @@ public class HeroSimMain {
 				final PhaseTrackerPanel v = new PhaseTrackerPanel(frame);
 
 				if (Utils.isMacOs()) {
-					com.apple.eawt.Application app = com.apple.eawt.Application.getApplication();
+/*					com.apple.eawt.Application app = com.apple.eawt.Application.getApplication();
 					app.addApplicationListener(new com.apple.eawt.ApplicationAdapter() {
 						public void handleQuit(com.apple.eawt.ApplicationEvent e) {
 							v.close();
 						}
 					});
+*/
 				}
 
 				frame.setJMenuBar(v.getJMenuBar());
