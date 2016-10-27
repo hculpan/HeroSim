@@ -38,7 +38,7 @@ public abstract class Person {
 
     protected int stunnedPhases = 0;
     protected int flashed = 0;
-    
+
     protected int body = 0;
     protected int stun = 0;
     
@@ -441,7 +441,7 @@ public abstract class Person {
 	/**
 	 * @return the displaySuffix
 	 */
-	public String getDisplaySuffix() {
+	public String getDisplaySuffix(int currPhase) {
 		if (displaySuffix != null) {
 			return displaySuffix;
 		} else {
@@ -453,7 +453,9 @@ public abstract class Person {
 				result = "c";
 			} else if (hasAborted()) {
 				result = "a";
-			} 
+			} else if (!hasActed() && !actsInPhase(currPhase)) {
+				result = "ha";
+			}
 			
 			if (isFlashed() && result == null) {
 				return "(f-" + Integer.toString(getFlashed())+ ")";
