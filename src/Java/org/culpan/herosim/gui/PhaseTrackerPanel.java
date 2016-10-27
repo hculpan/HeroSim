@@ -391,6 +391,17 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		}
 	};
 
+	protected final Action holdAction = new AbstractAction() {
+		{
+			putValue(Action.NAME, "Hold Action");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			//currentPerson.setHeldAction(true);
+			refreshViews();
+		}
+	};
+
 	protected final Action recoverAction = new AbstractAction() {
 		{
 			putValue(Action.NAME, "Recover");
@@ -678,6 +689,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 
 			if (currentPerson.actsInPhase(activePhase)) {
 				popupMenu.add(new JMenuItem(recoverAction));
+				popupMenu.add(new JMenuItem(holdAction));
 			}
 
 			popupMenu.addSeparator();
@@ -1175,8 +1187,9 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 			}
 
 			String displayText = p.getDisplayName();
-			if (p.getDisplaySuffix() != null && p.getDisplaySuffix().length() > 0) {
-				displayText += " " + p.getDisplaySuffix();
+			String displaySuffix = p.getDisplaySuffix(currPhase);
+			if (displaySuffix != null && displaySuffix.length() > 0) {
+				displayText += " " + displaySuffix;
 			} else if (p.getTarget() != null) {
 				displayText += " -> " + p.getTarget().getDisplayName();
 			}
