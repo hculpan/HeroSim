@@ -434,21 +434,22 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 
 		public void actionPerformed(ActionEvent e) {
 			if (currentPerson != null) {
-				String newValue = JOptionPane.showInputDialog(null, "BODY Damage", "Damage "
-						+ currentPerson.getDisplayName(), JOptionPane.QUESTION_MESSAGE);
-				int bodyDmg = Utils.parseInt(newValue, -1);
-				if (bodyDmg > -1) {
+				DamagePersonDialog damageDialog = new DamagePersonDialog(frame, currentPerson.getDisplayName());
+				damageDialog.pd = currentPerson.getPd();
+				damageDialog.ed = currentPerson.getEd();
+				damageDialog.setVisible(true);
+
+				if (damageDialog.body != null && damageDialog.stun != null) {
+					int bodyDmg = damageDialog.body;
 					currentPerson.setCurrentBody(currentPerson.getCurrentBody() - bodyDmg);
 
-					newValue = JOptionPane.showInputDialog(null, "STUN Damage", "Damage "
-							+ currentPerson.getDisplayName(), JOptionPane.QUESTION_MESSAGE);
-					int stunDmg = Utils.parseInt(newValue, -1);
+					int stunDmg = damageDialog.stun;
 					if (stunDmg > -1) {
 						currentPerson.setCurrentStun(currentPerson.getCurrentStun() - stunDmg);
 						if (stunDmg > currentPerson.getCon() && !currentPerson.isUnconscious()
 								&& !currentPerson.isStunned()) {
 							int c = JOptionPane.showConfirmDialog(HeroSimMain.frame, "Damage exceeds CON.\nIs "
-									+ currentPerson.getDisplayName() + " stunned?", "CON Stun Confirmation",
+											+ currentPerson.getDisplayName() + " stunned?", "CON Stun Confirmation",
 									JOptionPane.YES_NO_CANCEL_OPTION);
 							if (c == JOptionPane.YES_OPTION) {
 								setPersonStunned(currentPerson);
@@ -462,6 +463,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 						rollImpairmentDamage();
 					}
 				}
+
 
 				refreshViews();
 			}
@@ -631,7 +633,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 
 		public void actionPerformed(ActionEvent e) {
 			if (currentPerson != null) {
-				if (!isActingInCurrentPhase(currentPerson)) {
+				if (!isActingInCurrentPhase(currentPerson) && currentPerson.hasActed()) {
 					currentPerson.setAborted(true);
 				}
 				currentPerson.setActed(true);
@@ -741,7 +743,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		protected void handleMousePressedReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {
 				if (e.getComponent() instanceof JList) {
-					JList list = (JList) e.getComponent();
+/*					JList list = (JList) e.getComponent();
 					int i = list.locationToIndex(e.getPoint());
 					if (i > -1) {
 						list.setSelectedIndex(i);
@@ -750,7 +752,8 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 						currentPerson = (Person) list.getModel().getElementAt(i);
 					} else {
 						currentPerson = null;
-					}
+					}*/
+					return;
 				} else if (e.getComponent() instanceof JTable) {
 					JTable list = (JTable) e.getComponent();
 					int i = list.rowAtPoint(e.getPoint());

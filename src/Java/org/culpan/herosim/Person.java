@@ -41,6 +41,9 @@ public abstract class Person {
 
     protected int body = 0;
     protected int stun = 0;
+
+	protected int pd = 0;
+	protected int ed = 0;
     
     protected int currentBody = 0;
     protected int currentStun = 0; 
@@ -155,8 +158,16 @@ public abstract class Person {
         if (rec != null) {
         	setRec(Utils.parseInt(rec.getChildText("total")));
         }
-        
-        Element body;
+		Element pd = chars.getChild("pd");
+		if (pd != null) {
+			setPd(Utils.parseInt(pd.getChildText("total")));
+		}
+		Element ed = chars.getChild("ed");
+		if (ed != null) {
+			setEd(Utils.parseInt(ed.getChildText("total")));
+		}
+
+		Element body;
         if ((body = chars.getChild("body")) !=null) {
         	setBody(Utils.parseInt(body.getChildText("total")));
         	if (body.getChildText("current") != null) {
@@ -207,6 +218,8 @@ public abstract class Person {
     	Element characteristics = new Element("characteristics")
     		.addContent(new Element("dex").addContent(new Element("total").setText(Integer.toString(getDex()))))
     		.addContent(new Element("con").addContent(new Element("total").setText(Integer.toString(getCon()))))
+			.addContent(new Element("pd").addContent(new Element("total").setText(Integer.toString(getPd()))))
+			.addContent(new Element("ed").addContent(new Element("total").setText(Integer.toString(getEd()))))
     		.addContent(new Element("rec").addContent(new Element("total").setText(Integer.toString(getRec()))))
     		.addContent(new Element("spd").addContent(new Element("total").setText(Integer.toString(getSpeed()))))
     		.addContent(new Element("body").addContent(new Element("total").setText(Integer.toString(getBody())))
@@ -548,5 +561,21 @@ public abstract class Person {
 
 	public void setTargetName(String targetName) {
 		this.targetName = targetName;
+	}
+
+	public int getPd() {
+		return pd;
+	}
+
+	public void setPd(int pd) {
+		this.pd = pd;
+	}
+
+	public int getEd() {
+		return ed;
+	}
+
+	public void setEd(int ed) {
+		this.ed = ed;
 	}
 }

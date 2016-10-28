@@ -9,6 +9,12 @@
       <con>
         <total>9</total>
       </con>
+      <pd>
+        <total>5</total>
+      </pd>
+      <ed>
+        <total>3</total>
+      </ed>
       <rec>
         <total>9</total>
       </rec>
@@ -25,7 +31,7 @@
       </stun>
       <acted>false</acted>
       <aborted>false</aborted>
-      <stunned>-4</stunned>
+      <stunned>0</stunned>
       <flashed>0</flashed>
     </characteristics>
   </villain>
@@ -38,6 +44,12 @@
       <con>
         <total>10</total>
       </con>
+      <pd>
+        <total>5</total>
+      </pd>
+      <ed>
+        <total>10</total>
+      </ed>
       <rec>
         <total>4</total>
       </rec>
@@ -54,7 +66,7 @@
       </stun>
       <acted>false</acted>
       <aborted>false</aborted>
-      <stunned>-5</stunned>
+      <stunned>0</stunned>
       <flashed>0</flashed>
     </characteristics>
   </villain>
@@ -67,6 +79,12 @@
       <con>
         <total>10</total>
       </con>
+      <pd>
+        <total>12</total>
+      </pd>
+      <ed>
+        <total>12</total>
+      </ed>
       <rec>
         <total>4</total>
       </rec>
@@ -83,7 +101,7 @@
       </stun>
       <acted>false</acted>
       <aborted>false</aborted>
-      <stunned>-5</stunned>
+      <stunned>0</stunned>
       <flashed>0</flashed>
     </characteristics>
   </villain>
