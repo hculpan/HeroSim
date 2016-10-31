@@ -4,11 +4,7 @@
  */
 package org.culpan.herosim.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -50,6 +46,7 @@ import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.apache.commons.lang.StringUtils;
@@ -62,6 +59,7 @@ import org.culpan.herosim.Person;
 import org.culpan.herosim.PersonManager;
 import org.culpan.herosim.Utils;
 import org.culpan.herosim.Villain;
+import org.culpan.herosim.gui.dialog.ActionLogDialog;
 import org.culpan.herosim.gui.dice.NormalDamageDialog;
 import org.culpan.herosim.plugin.PlayerViewerPlugin;
 import org.culpan.herosim.plugin.PluginManager;
@@ -72,6 +70,25 @@ import org.jdom.Element;
  * 
  */
 public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonManager {
+	static class HeaderRenderer implements TableCellRenderer {
+
+		DefaultTableCellRenderer renderer;
+
+		public HeaderRenderer(JTable table) {
+			renderer = (DefaultTableCellRenderer)
+					table.getTableHeader().getDefaultRenderer();
+			renderer.setHorizontalAlignment(JLabel.CENTER);
+		}
+
+		@Override
+		public Component getTableCellRendererComponent(
+				JTable table, Object value, boolean isSelected,
+				boolean hasFocus, int row, int col) {
+			return renderer.getTableCellRendererComponent(
+					table, value, isSelected, hasFocus, row, col);
+		}
+	}
+
 	/** Used to mark if list is those who act only in phase */
 	protected final static int PHASE_LIST = 0;
 
@@ -107,6 +124,8 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 
 	/** This is the actual active turn */
 	protected int activeTurn = 1;
+
+	protected List<String> actionLog = new LinkedList<>();
 
 	protected boolean skipEmptySegments = true;
 
@@ -357,6 +376,18 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		}
 	};
 
+	protected final Action viewLogAction = new AbstractAction() {
+		{
+			putValue(Action.MNEMONIC_KEY, new Integer('V'));
+			putValue(Action.NAME, "View Action Log");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			ActionLogDialog actionLogDialog = new ActionLogDialog(frame, actionLog);
+			actionLogDialog.setVisible(true);
+		}
+	};
+
 	protected final Action changeSpeedAction = new AbstractAction() {
 		{
 			putValue(Action.NAME, "Change Speed");
@@ -391,17 +422,6 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		}
 	};
 
-	protected final Action holdAction = new AbstractAction() {
-		{
-			putValue(Action.NAME, "Hold Action");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			//currentPerson.setHeldAction(true);
-			refreshViews();
-		}
-	};
-
 	protected final Action recoverAction = new AbstractAction() {
 		{
 			putValue(Action.NAME, "Recover");
@@ -422,6 +442,8 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 					currentPerson.recoveryPhase();
 					currentPerson.setActed(true);
 					refreshViews();
+					addLogItem(currentPerson.getName() + " recovered " + currentPerson.getRec() + " stun, is at " +
+							currentPerson.getCurrentStun() + " of " + currentPerson.getStun());
 				}
 			}
 		}
@@ -462,6 +484,25 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 					if (bodyDmg >= currentPerson.getBody() / 2 && rollImpairment) {
 						rollImpairmentDamage();
 					}
+
+					String logMsg = currentPerson.getName() + " damaged ";
+					if (stunDmg > 0) {
+						logMsg += "for " + stunDmg + " stun, reduced to " + currentPerson.getCurrentStun() + " of " + currentPerson.getStun();
+					} else {
+						logMsg += "for no effect";
+					}
+
+					if (bodyDmg > 0) {
+						logMsg += ", takes " + bodyDmg + ", body reduced to " + currentPerson.getCurrentBody() + " of " + currentPerson.getBody();
+					}
+
+					if (currentPerson.isStunned()) {
+						logMsg += "; CON stunned";
+					} else if (currentPerson.isUnconscious()) {
+						logMsg += "; unconscious!";
+					}
+
+					addLogItem(logMsg);
 				}
 
 
@@ -479,16 +520,32 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 			if (currentPerson != null) {
 				String newValue = JOptionPane.showInputDialog(null, "BODY healed", "Heal "
 						+ currentPerson.getDisplayName(), JOptionPane.QUESTION_MESSAGE);
-				int dmg = Utils.parseInt(newValue, -1);
-				if (dmg > -1) {
-					currentPerson.setCurrentBody(currentPerson.getCurrentBody() + dmg);
+				int bodyHeal = Utils.parseInt(newValue, -1);
+				if (bodyHeal > -1) {
+					currentPerson.setCurrentBody(currentPerson.getCurrentBody() + bodyHeal);
 
 					newValue = JOptionPane.showInputDialog(null, "STUN healed", "Heal "
 							+ currentPerson.getDisplayName(), JOptionPane.QUESTION_MESSAGE);
-					dmg = Utils.parseInt(newValue, -1);
-					if (dmg > -1) {
-						currentPerson.setCurrentStun(currentPerson.getCurrentStun() + dmg);
+					int stunHeal = Utils.parseInt(newValue, -1);
+					if (stunHeal > -1) {
+						currentPerson.setCurrentStun(currentPerson.getCurrentStun() + stunHeal);
 					}
+
+					String logMsg = currentPerson + " healed ";
+					if (stunHeal > 0) {
+						logMsg += " for " + stunHeal + " stun raising it to " +
+								currentPerson.getCurrentStun() + " of " + currentPerson.getStun();
+					}
+
+					if (bodyHeal > 0 && stunHeal > 0) {
+						logMsg +=", and ";
+					}
+
+					if (bodyHeal > 0) {
+						logMsg += " for " + bodyHeal + " body raising it to " +
+								currentPerson.getCurrentBody() + " of " + currentPerson.getBody();
+					}
+					addLogItem(logMsg);
 				}
 
 				refreshViews();
@@ -638,6 +695,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 				}
 				currentPerson.setActed(true);
 				refreshViews();
+				addLogItem("Abort: " + currentPerson.getName() + " just aborted to a defensive action");
 			}
 		}
 	};
@@ -691,7 +749,6 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 
 			if (currentPerson.actsInPhase(activePhase)) {
 				popupMenu.add(new JMenuItem(recoverAction));
-				popupMenu.add(new JMenuItem(holdAction));
 			}
 
 			popupMenu.addSeparator();
@@ -743,16 +800,6 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		protected void handleMousePressedReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {
 				if (e.getComponent() instanceof JList) {
-/*					JList list = (JList) e.getComponent();
-					int i = list.locationToIndex(e.getPoint());
-					if (i > -1) {
-						list.setSelectedIndex(i);
-						// currentPerson =
-						// findPerson(list.getModel().getElementAt(i).toString());
-						currentPerson = (Person) list.getModel().getElementAt(i);
-					} else {
-						currentPerson = null;
-					}*/
 					return;
 				} else if (e.getComponent() instanceof JTable) {
 					JTable list = (JTable) e.getComponent();
@@ -834,15 +881,6 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 
 		listModel = new DefaultListModel();
 		list = new JList(listModel);
-		/*
-		 * list.setDragEnabled(true); list.setTransferHandler(new
-		 * PersonTransferHandler(this));
-		 * 
-		 * list.addMouseListener(new MouseAdapter() { public void
-		 * mousePressed(MouseEvent e) { JComponent c = (JComponent)
-		 * e.getSource(); TransferHandler handler = c.getTransferHandler();
-		 * handler.exportAsDrag(c, e, TransferHandler.COPY); } });
-		 */
 
 		list.setCellRenderer(new CharCellRenderer());
 		list.addMouseListener(popupMenuMouseListener);
@@ -859,16 +897,20 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 			}
 		});
 		table.addMouseListener(popupMenuMouseListener);
+		table.getTableHeader().setDefaultRenderer(new HeaderRenderer(table));
 		tableModel.setColumnCount(7);
 		tableModel.setColumnIdentifiers(new String[] { "Name", "CON", "DEX", "REC", "SPD", "BODY", "STUN" });
+		int [] colSizes =                            { 200,    50,    50,    50,    50,    -1,     -1};
 
 		DefaultTableCellRenderer r = new DefaultTableCellRenderer();
 		r.setHorizontalAlignment(JLabel.CENTER);
 		for (int i = 0; i < tableModel.getColumnCount(); i++) {
 			TableColumn col = table.getColumnModel().getColumn(i);
-			if (i == 0) {
-				col.setPreferredWidth(200);
-			} else {
+			if (colSizes[i] >= 0) {
+				col.setPreferredWidth(colSizes[i]);
+			}
+
+			if (i > 0) {
 				col.setCellRenderer(r);
 			}
 		}
@@ -1106,6 +1148,8 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		JCheckBoxMenuItem rollImpairmentMenu = new JCheckBoxMenuItem(rollImpairmentAction);
 		rollImpairmentMenu.setSelected(rollImpairment);
 		optionsMenu.add(rollImpairmentMenu);
+		optionsMenu.add(new JSeparator());
+		optionsMenu.add(new JMenuItem(viewLogAction));
 
 		result.add(optionsMenu);
 
@@ -1218,6 +1262,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 	protected void resetPhase() {
 		currPhase = activePhase = 12;
 		currTurn = activeTurn = 1;
+		actionLog.clear();
 		for (Person p : chars) {
 			p.setTarget(null);
 			p.setActed(false);
@@ -1475,5 +1520,10 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 	 * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
 	 */
 	public void windowOpened(WindowEvent arg0) {
+	}
+
+	public void addLogItem(String event) {
+		String eventMsg = "Phase " + Integer.toString(currPhase) + ": " + event;
+		actionLog.add(eventMsg);
 	}
 }
