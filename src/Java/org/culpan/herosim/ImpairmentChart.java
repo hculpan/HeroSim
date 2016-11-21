@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.culpan.herosim.gui.dice.DiceRoller;
+import org.culpan.herosim.gui.dice.NormalDamageDiceRoller;
 import org.jdom.Element;
 
 public class ImpairmentChart {
@@ -23,7 +23,8 @@ public class ImpairmentChart {
 	protected List<String> rollResults = new ArrayList<String>();
 	
 	public String getDiceResult() throws Exception {
-		return rollResults.get(DiceRoller.rollDiceTotal(diceRoll) - 1);
+		//return rollResults.get(NormalDamageDiceRoller.rollDiceTotal(diceRoll) - 1);
+		return null;
 	}
 	
 	public String getLocationDescr(String loc) {

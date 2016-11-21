@@ -1,5 +1,9 @@
 package org.culpan.herosim.gui;
 
+import org.culpan.herosim.gui.dice.DiceParseException;
+import org.culpan.herosim.gui.dice.DiceRoller;
+import org.culpan.herosim.gui.dice.NormalDamageDiceRoller;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -20,6 +24,14 @@ public class DamagePersonDialog extends JDialog {
     private JRadioButton noDefensesRadioButton;
     private JRadioButton EDRadioButton1;
     private JLabel damageOutField;
+    private JButton a12d6Button;
+    private JButton a16d6Button;
+    private JButton a14d6Button;
+    private JButton a18d6Button;
+    private JButton a20d6Button;
+    private JLabel knockbackOutputField;
+    private JTextField diceTextField;
+    private JButton rollButton;
 
     public Integer body;
 
@@ -113,6 +125,68 @@ public class DamagePersonDialog extends JDialog {
                 changeDamageMessage();
             }
         });
+
+        a12d6Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rollDamageDice("12n");
+            }
+        });
+        a14d6Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rollDamageDice("14n");
+            }
+        });
+        a16d6Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rollDamageDice("16n");
+            }
+        });
+        a18d6Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rollDamageDice("18n");
+            }
+        });
+        a20d6Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rollDamageDice("20n");
+            }
+        });
+        rollButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String diceText = diceTextField.getText();
+                if (diceText != null && !diceText.trim().isEmpty()) {
+                    rollDamageDice(diceText);
+                }
+            }
+        });
+    }
+
+    protected void rollDamageDice(String text) {
+        NormalDamageDiceRoller diceRoller = new NormalDamageDiceRoller();
+        try {
+            DiceRoller.DamageResult damageResult = diceRoller.rollNormalDamage(text);
+            if (damageResult != null) {
+                stunField.setText(Integer.toString(damageResult.stun));
+                bodyField.setText(Integer.toString(damageResult.body));
+                if (damageResult.knockback > 0 || damageResult.knockbackResisted > 0) {
+                    knockbackOutputField.setText(
+                            Integer.toString(damageResult.knockback) + "' KB (" +
+                                    damageResult.knockbackResisted + " rolled)");
+                } else {
+                    knockbackOutputField.setText("");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error : '" + text + "' is not a valid dice roller text", "Dice Roller", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (DiceParseException e) {
+            JOptionPane.showMessageDialog(null, "Error : '" + text + "' is not a valid dice roller text", "Dice Roller", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void changeDamageMessage() {
