@@ -152,7 +152,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		}
 	};
 	
-	protected final Action personInfoAction = new AbstractAction() {
+/*	protected final Action personInfoAction = new AbstractAction() {
 		{
 			putValue(Action.MNEMONIC_KEY, new Integer('I'));
 			putValue(Action.NAME, "Person Info");
@@ -164,6 +164,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 			}
 		}
 	};
+*/
 
  
 
@@ -722,8 +723,64 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		refreshViews();
 	}
 
+	protected void setPersonUnStunned(Person p) {
+		p.setStunnedPhases(0);
+
+		p.setActed(false);
+
+		refreshViews();
+	}
+
 	protected JPopupMenu getPopupMenu(int source) {
 		JPopupMenu popupMenu = new JPopupMenu();
+
+		if (currentPerson != null) {
+//			popupMenu.add(new JMenuItem(personInfoAction));
+
+			popupMenu.add(new JMenuItem(damagePersonAction));
+			popupMenu.add(new JMenuItem(flashAction));
+			if (currentPerson.actsInPhase(activePhase)) {
+				popupMenu.add(new JMenuItem(recoverAction));
+			}
+			if (source != PHASE_LIST) {
+				popupMenu.add(new JMenuItem(abortAction));
+			}
+
+//			popupMenu.addSeparator();
+//			popupMenu.add(new JMenuItem(nextPhaseAction));
+
+			// These are options that a character can perform
+			popupMenu.addSeparator();
+
+			// These are changes to an individual character
+			popupMenu.add(new JMenuItem(changeSpeedAction));
+
+			if (currentPerson.isStunned()) {
+				popupMenu.add(new JMenuItem(new AbstractAction() {
+					{
+						putValue(Action.NAME, "Clear Stunned");
+					}
+
+					public void actionPerformed(ActionEvent e) {
+						setPersonUnStunned(currentPerson);
+					}
+				}));
+			} else {
+				popupMenu.add(new JMenuItem(new AbstractAction() {
+					{
+						putValue(Action.NAME, "Stunned");
+					}
+
+					public void actionPerformed(ActionEvent e) {
+						setPersonStunned(currentPerson);
+					}
+				}));
+			}
+
+			popupMenu.add(new JMenuItem(healPersonAction));
+			popupMenu.add(new JMenuItem(restorePersonAction));
+			popupMenu.addSeparator();
+		}
 
 		popupMenu.add(new JMenuItem(addPersonAction));
 		if (currentPerson != null) {
@@ -736,43 +793,6 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		}
 
 		popupMenu.addSeparator();
-		popupMenu.add(new JMenuItem(nextPhaseAction));
-		popupMenu.addSeparator();
-
-		if (currentPerson != null) {
-			popupMenu.add(new JMenuItem(personInfoAction));
-			
-			// These are options that a character can perform
-			if (source != PHASE_LIST) {
-				popupMenu.add(new JMenuItem(abortAction));
-			}
-
-			if (currentPerson.actsInPhase(activePhase)) {
-				popupMenu.add(new JMenuItem(recoverAction));
-			}
-
-			popupMenu.addSeparator();
-
-			// These are changes to an individual character
-			popupMenu.add(new JMenuItem(flashAction));
-			popupMenu.add(new JMenuItem(changeSpeedAction));
-
-			popupMenu.add(new JMenuItem(new AbstractAction() {
-				{
-					putValue(Action.NAME, "Stunned");
-				}
-
-				public void actionPerformed(ActionEvent e) {
-					setPersonStunned(currentPerson);
-				}
-			}));
-
-			popupMenu.add(new JMenuItem(damagePersonAction));
-			popupMenu.add(new JMenuItem(healPersonAction));
-			popupMenu.add(new JMenuItem(restorePersonAction));
-			popupMenu.addSeparator();
-		}
-
 		popupMenu.add(new JMenuItem(restoreAllAction));
 
 		return popupMenu;
