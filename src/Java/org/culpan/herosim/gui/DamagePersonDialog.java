@@ -3,6 +3,7 @@ package org.culpan.herosim.gui;
 import org.culpan.herosim.gui.dice.DiceParseException;
 import org.culpan.herosim.gui.dice.DiceRoller;
 import org.culpan.herosim.gui.dice.NormalDamageDiceRoller;
+import org.culpan.herosim.gui.dice.TaskDiceRoller;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -32,6 +33,9 @@ public class DamagePersonDialog extends JDialog {
     private JLabel knockbackOutputField;
     private JTextField diceTextField;
     private JButton rollButton;
+    private JTextField dcvTextField;
+    private JButton btnAttackRoll;
+    private JTextField attackResultTextField;
 
     public Integer body;
 
@@ -40,6 +44,8 @@ public class DamagePersonDialog extends JDialog {
     public int pd;
 
     public int ed;
+
+    public int dcv;
 
     public DamagePersonDialog(JFrame owner, String displayName) {
         setTitle("Damage " + displayName);
@@ -165,6 +171,40 @@ public class DamagePersonDialog extends JDialog {
                 }
             }
         });
+        btnAttackRoll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TaskDiceRoller taskDiceRoller = new TaskDiceRoller();
+                TaskDiceRoller.TaskDiceResult taskDiceResult = taskDiceRoller.rollTaskDice();
+                if (taskDiceResult != null) {
+                    StringBuilder msg = new StringBuilder();
+                    if (dcvTextField.getText() != null && !dcvTextField.getText().isEmpty()) {
+                        int dcv = 0;
+                        try {
+                            dcv = Integer.parseInt(dcvTextField.getText());
+                        } catch (NumberFormatException ex) {
+                            dcv = 0;
+                        }
+                        msg.append("OCV ");
+                        msg.append(Integer.toString(dcv - 11 + taskDiceResult.total));
+                        msg.append("+");
+                    }
+                    msg.append("  (Rolled ");
+                    msg.append(taskDiceResult.total);
+                    msg.append(" with ");
+                    msg.append(taskDiceResult.dice[0]);
+                    msg.append(" , ");
+                    msg.append(taskDiceResult.dice[1]);
+                    msg.append(" , and ");
+                    msg.append(taskDiceResult.dice[2]);
+                    msg.append(")");
+
+                    attackResultTextField.setText(msg.toString());
+                } else {
+                    attackResultTextField.setText("");
+                }
+            }
+        });
     }
 
     protected void rollDamageDice(String text) {
@@ -198,11 +238,27 @@ public class DamagePersonDialog extends JDialog {
         }
     }
 
+    private Integer getBodyDamage() {
+        if (getBodyValue() == null) {
+            return null;
+        } else {
+            return (getBodyValue() - getDefenseValue() < 0 ? 0 : getBodyValue() - getDefenseValue());
+        }
+    }
+
     private Integer getStunDamage() {
         if (getStunValue() == null) {
             return null;
         } else {
             return (getStunValue() - getDefenseValue() < 0 ? 0 : getStunValue() - getDefenseValue());
+        }
+    }
+
+    private Integer getBodyValue() {
+        if (bodyField.getText().isEmpty() || !bodyField.getText().matches("\\d+")) {
+            return null;
+        } else {
+            return Integer.parseInt(bodyField.getText());
         }
     }
 
@@ -232,7 +288,7 @@ public class DamagePersonDialog extends JDialog {
         if (!stunField.getText().isEmpty() && stunField.getText().matches("\\d+") &&
                 !bodyField.getText().isEmpty() && bodyField.getText().matches("\\d+")) {
             stun = getStunDamage();
-            body = Integer.parseInt(bodyField.getText());
+            body = getBodyDamage();
             dispose();
         }
     }
@@ -249,6 +305,9 @@ public class DamagePersonDialog extends JDialog {
         EDRadioButton1.setText("ED: " + Integer.toString(ed));
         halfEDRadioButton1.setText("Half ED: " + Long.toString(Math.round((ed/2.0) + 0.1)));
         halfPDRadioButton.setText("Half PD: " + Long.toString(Math.round((pd/2.0) + 0.1)));
+        if (dcv != 0) {
+            dcvTextField.setText(Integer.toString(dcv));
+        }
 
         super.setVisible(b);
     }

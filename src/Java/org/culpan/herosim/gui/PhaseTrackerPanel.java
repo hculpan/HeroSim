@@ -460,6 +460,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 				DamagePersonDialog damageDialog = new DamagePersonDialog(frame, currentPerson.getDisplayName());
 				damageDialog.pd = currentPerson.getPd();
 				damageDialog.ed = currentPerson.getEd();
+				damageDialog.dcv = currentPerson.getDcv();
 				damageDialog.setVisible(true);
 
 				if (damageDialog.body != null && damageDialog.stun != null) {
@@ -919,7 +920,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		table.addMouseListener(popupMenuMouseListener);
 		table.getTableHeader().setDefaultRenderer(new HeaderRenderer(table));
 		tableModel.setColumnCount(7);
-		tableModel.setColumnIdentifiers(new String[] { "Name", "CON", "DEX", "REC", "SPD", "BODY", "STUN" });
+		tableModel.setColumnIdentifiers(new String[] { "Name", "DCV", "CON", "REC", "SPD", "BODY", "STUN" });
 		int [] colSizes =                            { 200,    50,    50,    50,    50,    -1,     -1};
 
 		DefaultTableCellRenderer r = new DefaultTableCellRenderer();
@@ -1261,7 +1262,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 				displayText += " -> " + p.getTarget().getDisplayName();
 			}
 
-			tableModel.addRow(new Object[] { displayText, Integer.toString(p.getCon()), Integer.toString(p.getDex()),
+			tableModel.addRow(new Object[] { displayText, Integer.toString(p.getDcv()), Integer.toString(p.getCon()),
 					Integer.toString(p.getRec()), Integer.toString(p.getSpeed()),
 					Integer.toString(p.getBody()) + " / " + Integer.toString(p.getCurrentBody()),
 					Integer.toString(p.getStun()) + " / " + Integer.toString(p.getCurrentStun()) });
