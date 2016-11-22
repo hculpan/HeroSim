@@ -43,6 +43,8 @@ public class AddPersonDialog extends JDialog {
 
 	protected JTextField edField = new JTextField(10);
 
+	protected JTextField dcvField = new JTextField(10);
+
 	protected JCheckBox player = new JCheckBox();
 
 	protected JTextField countField = new JTextField(10);
@@ -78,7 +80,7 @@ public class AddPersonDialog extends JDialog {
 
 		setLayout(new BorderLayout());
 
-		setSize(350, 400);
+		setSize(350, 430);
 		setModal(true);
 		setResizable(false);
 		setTitle("Add Person");
@@ -95,6 +97,7 @@ public class AddPersonDialog extends JDialog {
 		b.add(addEntry("STUN ", stunField));
 		b.add(addEntry("PD ", pdField));
 		b.add(addEntry("ED ", edField));
+		b.add(addEntry("DCV ", dcvField));
 		b.add(addEntry("Player", player));
 		b.add(addEntry("Count", countField));
 		countField.setText("1");
@@ -111,6 +114,7 @@ public class AddPersonDialog extends JDialog {
 			stunField.setText(Integer.toString(result.getStun()));
 			pdField.setText(Integer.toString(result.getPd()));
 			edField.setText(Integer.toString(result.getEd()));
+			dcvField.setText(Integer.toString(result.getDcv()));
 			player.setSelected(result instanceof Hero);
 		}
 
@@ -142,6 +146,8 @@ public class AddPersonDialog extends JDialog {
 					JOptionPane.showMessageDialog(null, "Missing PD", "Error", JOptionPane.ERROR_MESSAGE);
 				} else if (edField.getText().trim().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Missing ED", "Error", JOptionPane.ERROR_MESSAGE);
+				} else if (dcvField.getText().trim().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Missing DCV", "Error", JOptionPane.ERROR_MESSAGE);
 				} else if (countField.getText().trim().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Missing Count", "Error", JOptionPane.ERROR_MESSAGE);
 				} else if (player.isSelected()) {
@@ -154,6 +160,7 @@ public class AddPersonDialog extends JDialog {
 					result.setCon(Integer.parseInt(conField.getText()));
 					result.setPd(Integer.parseInt(pdField.getText()));
 					result.setEd(Integer.parseInt(edField.getText()));
+					result.setDcv(Integer.parseInt(dcvField.getText()));
 					result.setRec(Integer.parseInt(recField.getText()));
 					resultCount = Utils.parseInt(countField.getText(), 1);
 					setVisible(false);
@@ -167,6 +174,7 @@ public class AddPersonDialog extends JDialog {
 					result.setCon(Integer.parseInt(conField.getText()));
 					result.setPd(Integer.parseInt(pdField.getText()));
 					result.setEd(Integer.parseInt(edField.getText()));
+					result.setDcv(Integer.parseInt(dcvField.getText()));
 					result.setRec(Integer.parseInt(recField.getText()));
 					resultCount = Utils.parseInt(countField.getText(), 1);
 					setVisible(false);

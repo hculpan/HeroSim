@@ -6,7 +6,7 @@ import java.util.Random;
  * Created by USUCUHA on 11/21/2016.
  */
 public class DiceRoller {
-    public enum DamageType {NORMAL_DAMAGE, KILLING_DAMAGE};
+    public enum DamageType {NORMAL_DAMAGE, KILLING_DAMAGE, STANDARD_ROLL};
 
     protected final static Random rnd = new Random();
 
@@ -28,4 +28,46 @@ public class DiceRoller {
         damageResult.body = body;
         return damageResult;
     }
+
+    public int[] rollDice(float numDice, int numSides) {
+        int[] result;// = new int[(int)numDice + 1];
+        if (numDice % 1 != 0) {
+            result = new int[(int)numDice + 1];
+        } else {
+            result = new int[(int)numDice];
+        }
+
+        for (int i = 0; i < (int)numDice; i++) {
+            result[i] = rnd.nextInt(numSides) + 1;
+        }
+
+        if (numDice % 1 != 0) {
+            result[(int)numDice] = (int)(((double)(rnd.nextInt(numSides) + 1) * (numDice % 1)) + 0.5);
+        }
+
+        return result;
+    }
+
+    public int[] rollDice(int numDice, int numSides) {
+        int[] result = new int[numDice];
+
+        for (int i = 0; i < numDice; i++) {
+            result[i] = rnd.nextInt(numSides) + 1;
+        }
+
+        return result;
+    }
+
+    public int rollDiceTotal(int numDice, int numSides) {
+        int result = 0;
+
+        int[] dice = rollDice(numDice, numSides);
+
+        for (int i = 0; i < dice.length; i++) {
+            result += dice[i];
+        }
+
+        return result;
+    }
+
 }

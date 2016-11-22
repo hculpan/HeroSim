@@ -44,6 +44,7 @@ public abstract class Person {
 
 	protected int pd = 0;
 	protected int ed = 0;
+	protected int dcv = 0;
     
     protected int currentBody = 0;
     protected int currentStun = 0; 
@@ -166,6 +167,10 @@ public abstract class Person {
 		if (ed != null) {
 			setEd(Utils.parseInt(ed.getChildText("total")));
 		}
+		Element dcv = chars.getChild("dcv");
+		if (dcv != null) {
+			setDcv(Utils.parseInt(dcv.getChildText("total")));
+		}
 
 		Element body;
         if ((body = chars.getChild("body")) !=null) {
@@ -220,6 +225,7 @@ public abstract class Person {
     		.addContent(new Element("con").addContent(new Element("total").setText(Integer.toString(getCon()))))
 			.addContent(new Element("pd").addContent(new Element("total").setText(Integer.toString(getPd()))))
 			.addContent(new Element("ed").addContent(new Element("total").setText(Integer.toString(getEd()))))
+			.addContent(new Element("dcv").addContent(new Element("total").setText(Integer.toString(getDcv()))))
     		.addContent(new Element("rec").addContent(new Element("total").setText(Integer.toString(getRec()))))
     		.addContent(new Element("spd").addContent(new Element("total").setText(Integer.toString(getSpeed()))))
     		.addContent(new Element("body").addContent(new Element("total").setText(Integer.toString(getBody())))
@@ -577,5 +583,13 @@ public abstract class Person {
 
 	public void setEd(int ed) {
 		this.ed = ed;
+	}
+
+	public int getDcv() {
+		return dcv;
+	}
+
+	public void setDcv(int dcv) {
+		this.dcv = dcv;
 	}
 }

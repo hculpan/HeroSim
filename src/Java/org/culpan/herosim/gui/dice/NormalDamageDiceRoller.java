@@ -122,46 +122,4 @@ public class NormalDamageDiceRoller extends DiceRoller {
         return damageResult;
     }
 
-
-    public static int rollDiceTotal(int numDice, int numSides) {
-        int result = 0;
-
-        int[] dice = rollDice(numDice, numSides);
-
-        for (int i = 0; i < dice.length; i++) {
-            result += dice[i];
-        }
-
-        return result;
-    }
-
-    public static int[] rollDice(float numDice, int numSides) {
-        int[] result;// = new int[(int)numDice + 1];
-        if (numDice % 1 != 0) {
-            result = new int[(int)numDice + 1];
-        } else {
-            result = new int[(int)numDice];
-        }
-
-        for (int i = 0; i < (int)numDice; i++) {
-            result[i] = rnd.nextInt(numSides) + 1;
-        }
-
-        if (numDice % 1 != 0) {
-            result[(int)numDice] = (int)(((double)(rnd.nextInt(numSides) + 1) * (numDice % 1)) + 0.5);
-        }
-
-        return result;
-    }
-
-    public static int[] rollDice(int numDice, int numSides) {
-        int[] result = new int[numDice];
-
-        for (int i = 0; i < numDice; i++) {
-            result[i] = rnd.nextInt(numSides) + 1;
-        }
-
-        return result;
-    }
-
 }
