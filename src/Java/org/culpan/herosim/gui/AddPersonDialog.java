@@ -1,9 +1,9 @@
 package org.culpan.herosim.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -24,6 +24,10 @@ import org.culpan.herosim.Villain;
 public class AddPersonDialog extends JDialog {
 	public Person result = null;
 	public int resultCount = 1;
+
+	public int width = 350;
+
+	public int height = 430;
 
 	protected JTextField nameField = new JTextField(10);
 
@@ -76,15 +80,43 @@ public class AddPersonDialog extends JDialog {
 	}
 
 	public AddPersonDialog(Frame parent, Person p) {
+		this(parent, p, 350, 430);
+	}
+
+	public AddPersonDialog(Frame parent, Person p, int width, int height) {
 		result = p;
 
 		setLayout(new BorderLayout());
 
-		setSize(350, 430);
+		setSize(width, height);
 		setModal(true);
-		setResizable(false);
+//		setResizable(false);
 		setTitle("Add Person");
 		setLocationRelativeTo(parent);
+
+		final AddPersonDialog addPersonDialog = this;
+
+		this.addComponentListener(new ComponentListener() {
+			public void componentResized(ComponentEvent e) {
+				addPersonDialog.width = ((JDialog)e.getSource()).getWidth();
+				addPersonDialog.height = ((JDialog)e.getSource()).getHeight();
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+
+			}
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+
+			}
+		});
 
 		Box b = Box.createVerticalBox();
 

@@ -151,7 +151,7 @@ public class HeroSimMain {
 				frame.addWindowListener(v);
 				frame.setTitle("HeroSim");
 				frame.setSize(new Dimension(700, 600));
-				frame.setResizable(false);
+				frame.setResizable(true);
 				frame.setVisible(true);
 				v.setLocation(frame);
 			}

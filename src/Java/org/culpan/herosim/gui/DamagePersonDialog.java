@@ -185,17 +185,18 @@ public class DamagePersonDialog extends JDialog {
                         } catch (NumberFormatException ex) {
                             dcv = 0;
                         }
-                        msg.append("OCV ");
+//                        msg.append("OCV ");
                         msg.append(Integer.toString(dcv - 11 + taskDiceResult.total));
                         msg.append("+");
                     }
-                    msg.append("  (Rolled ");
-                    msg.append(taskDiceResult.total);
-                    msg.append(" with ");
+//                    msg.append("  (Rolled ");
+                    msg.append("  (");
+//                    msg.append(taskDiceResult.total);
+//                    msg.append(" with ");
                     msg.append(taskDiceResult.dice[0]);
-                    msg.append(" , ");
+                    msg.append(",");
                     msg.append(taskDiceResult.dice[1]);
-                    msg.append(" , and ");
+                    msg.append(",");
                     msg.append(taskDiceResult.dice[2]);
                     msg.append(")");
 

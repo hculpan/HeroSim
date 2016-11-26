@@ -125,6 +125,10 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 	/** This is the actual active turn */
 	protected int activeTurn = 1;
 
+	protected int addPersonWidth = 350;
+
+	protected int addPersonHeight = 430;
+
 	protected List<String> actionLog = new LinkedList<>();
 
 	protected boolean skipEmptySegments = true;
@@ -177,7 +181,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			AddPersonDialog d = new AddPersonDialog(HeroSimMain.frame);
+			AddPersonDialog d = new AddPersonDialog(HeroSimMain.frame, null, addPersonWidth, addPersonHeight);
 			d.setVisible(true);
 			if (d.result != null) {
 				if (d.resultCount > 1) {
@@ -193,6 +197,9 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 					add(d.result);
 				}
 			}
+
+			addPersonWidth = d.width;
+			addPersonHeight = d.height;
 		}
 	};
 
@@ -223,12 +230,15 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			AddPersonDialog d = new AddPersonDialog(HeroSimMain.frame, currentPerson);
+			AddPersonDialog d = new AddPersonDialog(HeroSimMain.frame, currentPerson, addPersonWidth, addPersonHeight);
 			d.setVisible(true);
 			if (d.result != null) {
 				remove(currentPerson);
 				add(d.result);
 			}
+
+			addPersonWidth = d.width;
+			addPersonHeight = d.height;
 
 			updatePhaseDisplay();
 		}
