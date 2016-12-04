@@ -36,6 +36,7 @@ public class DamagePersonDialog extends JDialog {
     private JTextField dcvTextField;
     private JButton btnAttackRoll;
     private JTextField attackResultTextField;
+    private JCheckBox checkBoxAddDamage;
 
     public Integer body;
 
@@ -213,8 +214,16 @@ public class DamagePersonDialog extends JDialog {
         try {
             DiceRoller.DamageResult damageResult = diceRoller.rollNormalDamage(text);
             if (damageResult != null) {
-                stunField.setText(Integer.toString(damageResult.stun));
-                bodyField.setText(Integer.toString(damageResult.body));
+                if (!checkBoxAddDamage.isSelected() || stunField.getText().isEmpty()) {
+                    stunField.setText(Integer.toString(damageResult.stun));
+                } else {
+                    stunField.setText(stunField.getText() + "+" + Integer.toString(damageResult.stun));
+                }
+                if (!checkBoxAddDamage.isSelected() || bodyField.getText().isEmpty() || bodyField.getText().equalsIgnoreCase("0")) {
+                    bodyField.setText(Integer.toString(damageResult.body));
+                } else {
+                    bodyField.setText(bodyField.getText() + "+" + Integer.toString(damageResult.body));
+                }
                 if (damageResult.knockback > 0 || damageResult.knockbackResisted > 0) {
                     knockbackOutputField.setText(
                             Integer.toString(damageResult.knockback) + "' KB (" +
@@ -231,7 +240,7 @@ public class DamagePersonDialog extends JDialog {
     }
 
     private void changeDamageMessage() {
-        Integer stunDamage = getStunValue();
+        Integer stunDamage[] = getStunValue();
         if (stunDamage == null) {
             damageOutField.setText("");
         } else {
@@ -239,36 +248,50 @@ public class DamagePersonDialog extends JDialog {
         }
     }
 
-    private Integer getBodyDamage() {
-        if (getBodyValue() == null) {
+    private Integer getDamage(Integer values[]) {
+        if (values == null || values.length == 0) {
             return null;
         } else {
-            return (getBodyValue() - getDefenseValue() < 0 ? 0 : getBodyValue() - getDefenseValue());
+            int total = 0, defenseValue = getDefenseValue();
+            for (Integer value : values) {
+                total += (value - defenseValue < 0 ? 0 : value - defenseValue);
+            }
+            return total;
         }
+    }
+
+    private Integer getBodyDamage() {
+        return getDamage(getBodyValue());
     }
 
     private Integer getStunDamage() {
-        if (getStunValue() == null) {
-            return null;
-        } else {
-            return (getStunValue() - getDefenseValue() < 0 ? 0 : getStunValue() - getDefenseValue());
-        }
+        return getDamage(getStunValue());
     }
 
-    private Integer getBodyValue() {
-        if (bodyField.getText().isEmpty() || !bodyField.getText().matches("\\d+")) {
+    private Integer[] getValues(String text) {
+        if (text.isEmpty() || !text.matches("\\d+(\\+\\d+)*")) {
             return null;
+        } else if (text.contains("+")) {
+            String fields[] = text.split("\\+");
+            Integer results[] = new Integer[fields.length];
+            for (int i = 0; i < fields.length; i++) {
+                results[i] = Integer.parseInt(fields[i]);
+            }
+            return results;
         } else {
-            return Integer.parseInt(bodyField.getText());
+            Integer results[] = new Integer[1];
+            results[0] = Integer.parseInt(text);
+            return results;
         }
+
     }
 
-    private Integer getStunValue() {
-        if (stunField.getText().isEmpty() || !stunField.getText().matches("\\d+")) {
-            return null;
-        } else {
-            return Integer.parseInt(stunField.getText());
-        }
+    private Integer[] getBodyValue() {
+        return getValues(bodyField.getText());
+    }
+
+    private Integer[] getStunValue() {
+        return getValues(stunField.getText());
     }
 
     private int getDefenseValue() {
@@ -286,8 +309,7 @@ public class DamagePersonDialog extends JDialog {
     }
 
     private void onOK() {
-        if (!stunField.getText().isEmpty() && stunField.getText().matches("\\d+") &&
-                !bodyField.getText().isEmpty() && bodyField.getText().matches("\\d+")) {
+        if (getStunValue() != null && getBodyValue() != null) {
             stun = getStunDamage();
             body = getBodyDamage();
             dispose();
