@@ -189,6 +189,7 @@ public class PhaseTrackerPanel extends JPanel implements WindowListener, PersonM
 					for (int i = 0; i < d.resultCount; i++) {
 						Person p = d.result.copy();
 						p.setDisplayName(d.result.getDisplayName() + " " + Integer.toString(i + 1));
+						p.setName(p.getDisplayName());
 						add(p);
 					}
 					massUpdate = false;

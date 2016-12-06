@@ -302,6 +302,9 @@ public abstract class Person {
     	p.setStun(getStun());
     	p.setCurrentStun(getCurrentStun());
     	p.setRec(getRec());
+		p.setDcv(getDcv());
+		p.setPd(getPd());
+		p.setEd(getEd());
     	p.setActed(hasActed());
     	p.setAborted(hasAborted());
     	p.setStunnedPhases(getStunnedPhases());
